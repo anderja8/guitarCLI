@@ -1,0 +1,10 @@
+num_strings: 7
+num_frets: 24
+string_tunings:
+  - A
+  - E
+  - A
+  - D
+  - G
+  - B
+  - E
