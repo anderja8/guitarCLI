@@ -11,29 +11,29 @@ import (
 func initNoteRing() *ring.Ring {
 	noteRing := ring.New(12)
 	noteRing.Value = "A"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "A#"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "B"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "C"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "C#"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "D"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "D#"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "E"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "F"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "F#"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "G"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 	noteRing.Value = "G#"
-	noteRing.Next()
+	noteRing = noteRing.Next()
 
 	return noteRing
 }
@@ -59,25 +59,25 @@ func initGuitarSettings(noteRing *ring.Ring) (*GuitarSettings, error) {
 	//Validate the settings were found in viper and string tunings is the right length
 	if settings.numStrings == -1 || settings.numFrets == -1 || settings.stringTunings == nil ||
 		len(settings.stringTunings) != settings.numStrings {
-		err := errors.New("config file is invalid. Must contain the number of strings, number of frets, and a slice" +
-			"of valid string tuning values equal to the number of strings")
+		err := errors.New("config file is invalid - must contain the number of strings, number of frets, and a slice" +
+			" of valid string tuning values equal to the number of strings")
 		return settings, err
 	}
 
 	//Validate string tunings contains only valid notes
 	for _, v := range settings.stringTunings {
 		foundNote := false
-		for i := 0; i < 11; i++ {
+		for i := 0; i < noteRing.Len(); i++ {
 			if v == noteRing.Value {
 				foundNote = true
 				break
 			}
-			noteRing.Next()
+			noteRing = noteRing.Next()
 		}
 
 		if foundNote == false {
-			err := errors.New("config file is invalid. Must contain the number of strings, number of frets, and a slice" +
-				"of valid string tuning values equal to the number of strings")
+			err := errors.New("config file is invalid - must contain the number of strings, number of frets, and a slice" +
+				" of valid string tuning values equal to the number of strings")
 			return settings, err
 		}
 	}
