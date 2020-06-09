@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"io/ioutil"
 	"strconv"
 	"strings"
 )
@@ -70,13 +71,23 @@ you to adjust the mode.`,
 			return
 		}
 
-		fileName, _ := cmd.Flags().GetString("out")
+		scaleHTML := generateScaleHTML(noteRing, notesInScale, guitarSettings, root)
 
-		err = generateScaleChart(noteRing, notesInScale, guitarSettings, fileName)
-		if err != nil {
-			fmt.Println(err.Error())
-			return
+		fileName, _ := cmd.Flags().GetString("out")
+		if fileName == "" {
+			fileName = root + name
+			if degree != 1 {
+				fileName += " - degree" + strconv.Itoa(degree)
+			}
 		}
+		fileName += ".html"
+
+		err = ioutil.WriteFile(fileName, []byte(scaleHTML), 0644)
+		if err != nil {
+			fmt.Printf("error writing scale to %s\n", fileName)
+		}
+
+		fmt.Printf("scale diagram saved to %s\n", fileName)
 	},
 }
 
