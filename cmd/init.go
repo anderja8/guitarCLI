@@ -84,3 +84,57 @@ func initGuitarSettings(noteRing *ring.Ring) (*GuitarSettings, error) {
 
 	return settings, nil
 }
+
+// NoteIntervals
+type NoteIntervals struct {
+	root, min2, maj2, min3, maj3, p4, p5, min6, maj6, min7, maj7 string
+}
+
+func initNoteIntervals(rootNote string, noteRing *ring.Ring) (*NoteIntervals, error) {
+	foundNote := false
+	for i := 0; i < noteRing.Len(); i++ {
+		if rootNote == noteRing.Value {
+			foundNote = true
+			break
+		}
+		noteRing = noteRing.Next()
+	}
+	if foundNote == false {
+		err := errors.New("error the root note could not be found in the noteRing")
+		return nil, err
+	}
+
+	intervals := NoteIntervals{}
+
+	noteRing = noteRing.Next()
+	intervals.min2 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.maj2 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.min3 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.maj3 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.p4 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.p5 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.min6 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.maj6 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.min7 = noteRing.Value.(string)
+
+	noteRing = noteRing.Next()
+	intervals.maj7 = noteRing.Value.(string)
+
+	return &intervals, nil
+}

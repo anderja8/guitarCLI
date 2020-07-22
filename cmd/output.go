@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func generateScaleHTML(noteRing *ring.Ring, notesInScale []string, guitarSettings *GuitarSettings, scaleRoot string) string {
+func generateScaleHTML(noteRing *ring.Ring, notesInScale []string, guitarSettings *GuitarSettings, scaleRoot string, intervals NoteIntervals) string {
 
 	notesInScaleMap := make(map[string]int)
 	for _, note := range notesInScale {

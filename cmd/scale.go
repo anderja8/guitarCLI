@@ -71,7 +71,13 @@ you to adjust the mode.`,
 			return
 		}
 
-		scaleHTML := generateScaleHTML(noteRing, notesInScale, guitarSettings, root)
+		intervals, err := initNoteIntervals(root, noteRing)
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		scaleHTML := generateScaleHTML(noteRing, notesInScale, guitarSettings, root, intervals)
 
 		fileName, _ := cmd.Flags().GetString("out")
 		if fileName == "" {
